@@ -1,0 +1,46 @@
+{
+  "env": {
+    "es2022": true,
+    "node": true,
+    "browser": false
+  },
+  "extends": [
+    "eslint:recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "rules": {
+    "indent": ["error", 2],
+    "linebreak-style": ["error", "unix"],
+    "quotes": ["error", "single"],
+    "semi": ["error", "always"],
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "no-console": "warn",
+    "prefer-const": "error",
+    "no-var": "error",
+    "object-shorthand": "error",
+    "prefer-arrow-callback": "error",
+    "prefer-template": "error",
+    "no-trailing-spaces": "error",
+    "eol-last": "error",
+    "comma-dangle": ["error", "never"],
+    "no-multiple-empty-lines": ["error", { "max": 1 }],
+    "max-len": ["error", { "code": 100, "ignoreComments": true }],
+    "no-shadow": ["error", { "builtinGlobals": false }],
+    "no-eval": "error",
+    "no-implied-eval": "error",
+    "no-new-func": "error",
+    "no-script-url": "error",
+    "no-unused-expressions": ["error", { "allowShortCircuit": true, "allowTernary": true }],
+    "no-useless-concat": "error",
+    "no-useless-return": "error",
+    "curly": ["error", "all"],
+    "eqeqeq": ["error", "always"],
+    "no-fallthrough": "error",
+    "no-throw-literal": "error",
+    "use-isnan": "error",
+    "valid-typeof": "error"
+  }
+}

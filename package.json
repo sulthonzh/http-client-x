@@ -1,0 +1,61 @@
+{
+  "name": "http-client-x",
+  "version": "1.0.0",
+  "description": "Zero-dependency HTTP client library for Node.js with modern features and practical utilities",
+  "main": "dist/index.js",
+  "type": "module",
+  "bin": {
+    "http-client-x": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "node --test test/*.test.js",
+    "test:verbose": "node --test test/*.test.js --verbose",
+    "lint": "eslint src test",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "http",
+    "client",
+    "fetch",
+    "axios",
+    "zero-dependencies",
+    "node",
+    "typescript",
+    "cli",
+    "api",
+    "rest",
+    "request"
+  ],
+  "author": "Sulthonzh",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "commander": "^11.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "eslint": "^8.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
+  },
+  "tsup": {
+    "entry": [
+      "src/index.ts",
+      "src/cli.ts"
+    ],
+    "format": "esm",
+    "dts": true,
+    "splitting": false,
+    "sourcemap": true,
+    "clean": true
+  }
+}
