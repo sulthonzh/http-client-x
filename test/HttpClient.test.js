@@ -1,11 +1,11 @@
 import { test } from 'node:test';
 import assert from 'node:assert';
-import { setTimeout } from 'timers/promises';
-import { HttpClient } from '../src/HttpClient.js';
+import { HttpClient } from '../dist/index.js';
 
 // Mock HTTP server for testing
 let testServer;
 let testServerUrl;
+let retryAttempts = 0;
 
 test.before(async () => {
   // Create a test server
@@ -55,11 +55,14 @@ test.before(async () => {
       res.writeHead(404, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ error: 'Not found' }));
     } else if (path === '/slow') {
-      await new Promise(resolve => setTimeout(resolve, 100));
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ message: 'Slow response' }));
+      setTimeout(() => {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Slow response' }));
+      }, 100);
     } else if (path === '/retry') {
-      if (req.headers['x-retry-count'] === '2') {
+      const retryCount = retryAttempts;
+      retryAttempts++;
+      if (retryCount >= 2) {
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ message: 'Success after retry' }));
       } else {
@@ -178,6 +181,7 @@ test('HttpClient - Request timeout', async () => {
 });
 
 test('HttpClient - Retry mechanism', async () => {
+  retryAttempts = 0;
   const client = new HttpClient({
     retry: {
       attempts: 3,
@@ -188,9 +192,7 @@ test('HttpClient - Retry mechanism', async () => {
     }
   });
   
-  const response = await client.get(`${testServerUrl}/retry`, {
-    headers: { 'X-Retry-Count': '0' }
-  });
+  const response = await client.get(`${testServerUrl}/retry`);
   
   assert.strictEqual(response.status, 200);
   assert.strictEqual(response.data.message, 'Success after retry');
@@ -254,6 +256,8 @@ test('HttpClient - 404 error handling', async () => {
     assert.fail('Should have thrown an error');
   } catch (error) {
     assert.ok(error.code);
-    assert.ok(error.message.includes('ENOTFOUND'));
+    // ECONNREFUSED on closed port, or ENOTFOUND on DNS failure
+    assert.ok(error.code === 'ECONNREFUSED' || error.code === 'ENOTFOUND' ||
+              error.message.includes('ECONNREFUSED') || error.message.includes('ENOTFOUND'));
   }
 });

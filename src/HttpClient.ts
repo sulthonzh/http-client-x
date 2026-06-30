@@ -247,6 +247,18 @@ export class HttpClient {
             request: config
           };
 
+          // Reject on HTTP error status codes (4xx/5xx)
+          if (responseStatusCode! >= 400) {
+            const httpError = createHttpError(
+              `Request failed with status ${responseStatusCode}`,
+              config,
+              undefined
+            );
+            httpError.response = response;
+            reject(httpError);
+            return;
+          }
+
           // Apply response interceptors
           this.applyResponseInterceptors(response)
             .then(finalResponse => resolve(finalResponse))
