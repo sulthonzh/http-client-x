@@ -57,5 +57,8 @@
     "splitting": false,
     "sourcemap": true,
     "clean": true
+  },
+  "overrides": {
+    "esbuild": "0.28.1"
   }
 }
