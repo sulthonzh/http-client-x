@@ -1,4 +1,3 @@
-import { createHash } from 'crypto';
 import { request, Agent } from 'http';
 import { request as httpsRequest, Agent as HttpsAgent } from 'https';
 import { URL, URLSearchParams } from 'url';
@@ -323,11 +322,7 @@ export class HttpClient {
     
     for (const interceptor of this.interceptors) {
       if (interceptor.response) {
-        try {
-          finalResponse = await interceptor.response(finalResponse);
-        } catch (error) {
-          throw error;
-        }
+            finalResponse = await interceptor.response(finalResponse);
       }
     }
     
