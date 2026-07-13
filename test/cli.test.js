@@ -3,7 +3,10 @@ import assert from 'node:assert';
 import { exec } from 'child_process';
 import { setTimeout } from 'timers/promises';
 import { readFile, writeFile, unlink } from 'fs/promises';
-import { join } from 'path';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Mock HTTP server for testing
 let testServer;
@@ -61,7 +64,7 @@ test.after(() => {
 
 // Helper function to run CLI commands
 async function runCliCommand(args, options = {}) {
-  const command = `node ${process.cwd()}/dist/cli.js ${args}`;
+  const command = `node ${join(__dirname, '..', 'dist', 'cli.js')} ${args}`;
   return new Promise((resolve, reject) => {
     exec(command, options, (error, stdout, stderr) => {
       resolve({ error, stdout, stderr });
