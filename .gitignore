@@ -96,4 +96,5 @@ jspm_packages/
 Thumbs.db
 
 # Test files
-test-output*build/
+build/
+test-output*
