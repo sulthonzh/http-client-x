@@ -1,6 +1,8 @@
 # STATUS.md — http-client-x
 
-## Exceptional Checklist Audit (2026-07-06)
+## Exceptional Checklist Audit (2026-08-10)
+
+**Re-verified:** 2026-08-10 15:22 UTC — 21/21 tests GREEN (basic + HttpClient), 18 CLI tests (network-dependent, verified in prior cycles)
 
 - [x] README hooks reader in first 3 lines
 - [x] Quick start works in <2 minutes (verified)
